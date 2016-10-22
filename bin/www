@@ -14,7 +14,10 @@ var connectionString = process.env.DATABASE_URL;
 // connect to Massive and get the db instance. You can safely use the
 // convenience sync method here because its on app load
 // you can also use loadSync - it's an alias
+
+console.log('BEFORE MASSIVE')
 var massiveInstance = massive.connectSync({connectionString : connectionString})
+console.log('AFTER MASSIVE')
 
 // Set a reference to the massive instance on Express' app:
 app.set('db', massiveInstance);
@@ -22,7 +25,6 @@ app.set('db', massiveInstance);
 /**
  * Get port from environment and store in Express.
  */
-console.log("PORT: ", process.env.PORT)
 
 var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
