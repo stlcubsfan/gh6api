@@ -8,10 +8,13 @@ var reservations = require('./agency_reservations');
 router.use('/:agency_id/reservations', reservations);
 
 function bedCalc(agency) {
+  agency.hasBeds = false;
+
   if (agency.total_beds_available) {
-    agency.hasBeds = true;
-  } else {
-    agency.hasBeds = false;
+    agency.beds_available = agency.total_beds_available - agency.reservation_count;
+    if (agency.beds_available > 0) {
+      agency.hasBeds = true;
+    }
   }
   return agency;
 }
@@ -65,14 +68,14 @@ router.get('/', (req, res, next) => {
   if (req.query.range) {
     var xcoord = req.query.xpos;
     var ycoord = req.query.ypos;
-    db.run("select *, round((pos <@> point($1,$2))::numeric, 3) as distance from agency where round((pos <@> point($1,$2))::numeric, 3) < $3 order by distance",
+    db.run("select *, round((pos <@> point($1,$2))::numeric, 3) as distance from agency_v where round((pos <@> point($1,$2))::numeric, 3) < $3 order by distance",
       [ycoord, xcoord, req.query.range],
       function(err, agencies) {
         return res.json(mod(agencies, req));
       });
   } else {
     var queryParams = cleanQueryParams(req);
-    db.agency.find(queryParams, function(err, agencies){
+    db.agencyv.find(queryParams, function(err, agencies){
       return res.json(mod(agencies, req));
     });
   }
@@ -81,7 +84,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
   var db = req.app.get('db');
-  db.agency.find(id, function(err, agency){
+  db.agencyv.find({id: id}, function(err, agency){
     if (agency) {
       return res.json(mod(agency, req));
     } else {
