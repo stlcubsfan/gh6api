@@ -17,7 +17,7 @@ var employmenttype = require('./routes/employmenttype');
 var notemployedreason = require('./routes/notemployedreason');
 var schoolstatus = require('./routes/schoolstatus');
 var noyes = require('./routes/noyes');
-var whenoccurred = require('./routes/whenoccurred');
+var whenoccured = require('./routes/whenoccured');
 var healthstatus = require('./routes/healthstatus');
 
 
@@ -51,7 +51,7 @@ app.use('/healthstatuses', healthstatus);
 app.use('/notemployedreasons', notemployedreason);
 app.use('/noyeses', noyes);
 app.use('/schoolstatuses', schoolstatus);
-app.use('/whenoccurs', whenoccurred);
+app.use('/whenoccurs', whenoccured);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
