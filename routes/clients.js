@@ -6,10 +6,12 @@ var _ = require('lodash');
 var clientDisabilities = require('./client_disabilities');
 var clientEducationEmployment = require('./client_education_employment');
 var clientIncome = require('./client_income');
+var clientHealth = require('./client_health');
 
 router.use('/:clientId/disabilities', clientDisabilities);
 router.use('/:clientId/educationAndEmployments', clientEducationEmployment);
 router.use('/:clientId/incomes', clientIncome);
+router.use('/:clientId/healthes', clientHealth);
 
 /* GET clients listing. */
 router.get('/', (req, res, next) => {
