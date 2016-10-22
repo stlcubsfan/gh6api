@@ -29,6 +29,34 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
+router.get('/:id/engagements', (req, res, next) => {
+  const id = Number(req.params.id);
+  var db = req.app.get('db');
+  db.client_engagement_v.find({"client_id": id}, function(err, clientEngagements){
+    if (err) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+    }
+
+    if (clientEngagements) {
+      var responses = [];
+      _.forEach(clientEngagements, function(clientEngagement) {
+        var response = {};
+        response['client_id'] = clientEngagement.client_id;
+        if (clientEngagement.enrollment_id) {
+          response.program_href = "/agencies/" + clientEngagement.agency_id + "/programs/" + clientEngagement.program_id;
+        }
+        if (clientEngagement.opportunity_id) {
+          response.opportunity_href = "/partners/" + clientEngagement.partner_id + "/opportunities/" + clientEngagement.opportunity_id;
+        }
+        responses.push(response);
+      });
+      return res.json(responses);
+    } else {
+      return res.status(HttpStatus.NOT_FOUND).json({});
+    }
+  });
+});
+
 router.post('/', (req, res, next) => {
   var db = req.app.get('db');
   var client = req.body;
