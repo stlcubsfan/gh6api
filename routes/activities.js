@@ -3,11 +3,11 @@ var router = express.Router();
 const path = require('path');
 var HttpStatus = require('http-status-codes');
 
-/* GET users listing. */
+/* GET activities listing. */
 router.get('/', (req, res, next) => {
   var db = req.app.get('db');
-  db.activity.find(req.query, function(err, users){
-    return res.json(users);
+  db.activity.find(req.query, function(err, activities){
+    return res.json(activities);
   });
 });
 
