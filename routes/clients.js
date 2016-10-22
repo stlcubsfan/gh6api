@@ -4,8 +4,10 @@ const path = require('path');
 var HttpStatus = require('http-status-codes');
 var _ = require('lodash');
 var clientDisabilities = require('./client_disabilities');
+var clientEducationEmployment = require('./client_education_employment');
 
 router.use('/:clientId/disabilities', clientDisabilities);
+router.use('/:clientId/educationAndEmployments', clientEducationEmployment);
 
 /* GET clients listing. */
 router.get('/', (req, res, next) => {
