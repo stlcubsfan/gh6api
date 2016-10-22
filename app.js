@@ -45,7 +45,7 @@ app.use('/disabilityResponses', disabilitiesresponses);
 app.use('/educationlevels', educationlevel);
 app.use('/employmenttypes', employmenttype);
 app.use('/notemployedreasons', notemployedreason);
-app.use('/schoolstatuss', schoolstatus);
+app.use('/schoolstatuses', schoolstatus);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
