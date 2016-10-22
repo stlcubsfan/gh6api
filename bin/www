@@ -9,7 +9,6 @@ var debug = require('debug')('gh6api:server');
 var http = require('http');
 var massive = require("massive");
 if (process.env.NODE_ENV != 'production') {
-  console.log('GOT HERE');
   require('dotenv').config();
 }
 var connectionString = process.env.DATABASE_URL;
@@ -25,6 +24,7 @@ app.set('db', massiveInstance);
 /**
  * Get port from environment and store in Express.
  */
+console.log("PORT: ", process.env.PORT)
 
 var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
