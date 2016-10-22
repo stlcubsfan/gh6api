@@ -30,7 +30,32 @@ Programs:
 http://localhost:3001/agencies/1/programs
 ```
 
+Clients:
+```
+http://localhost:3001/clients
+```
+
+Things a Client is enrolled in:
+```
+http://localhost:3001/clients/20/engagements
+```
+
 Clients for Programs:
 ```
 http://localhost:3001/agencies/1/programs/2/clients
+```
+
+Partners:
+```
+http://localhost:3001/partners
+```
+
+Opportunities by Partner:
+```
+http://localhost:3001/partners/1/opportunities
+```
+
+Clients for Opportunities:
+```
+http://localhost:3001/partners/1/opportunities/2/clients
 ```
