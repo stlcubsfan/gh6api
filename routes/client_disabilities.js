@@ -1,21 +1,27 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 const path = require('path');
 const moment = require('moment');
 var HttpStatus = require('http-status-codes');
 
+
 /* GET clientdisabilities listing. */
 router.get('/', (req, res, next) => {
   var db = req.app.get('db');
-  db.clientdisability.find(req.query, function(err, clientdisabilities){
+  var queryParams = req.query;
+  queryParams['clientid'] = req.params.clientId;  
+  db.clientdisability.find(queryParams, function(err, clientdisabilities){
     return res.json(clientdisabilities);
   });
 });
 
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
+  var queryParams = req.query;
+  queryParams['clientid'] = req.params.clientId;
+  queryParams['id'] = req.params.id;
   var db = req.app.get('db');
-  db.clientdisability.find(id, function(err, clientdisability){
+  db.clientdisability.findOne(queryParams, function(err, clientdisability){
     if (clientdisability) {
       return res.json(clientdisability);
     } else {
@@ -27,6 +33,7 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   var db = req.app.get('db');
   var clientdisability = req.body;
+  clientdisabilitiy.clientid = req.params.clientId;  
   clientdisability.creation_date = new Date();
   clientdisability.last_update_date = new Date();
   clientdisability.notedbyuserid = 1;
