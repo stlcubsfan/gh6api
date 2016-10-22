@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/agencies', agencies);
+app.use('/agencies', agencies);
 app.use('/activities', activities);
 app.use('/clients', clients);
 
