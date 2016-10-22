@@ -2,6 +2,37 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 var HttpStatus = require('http-status-codes');
+var _ = require('lodash');
+
+function bedCalc(agency) {
+  if (agency.total_beds_available) {
+    agency.hasBeds = true;
+  } else {
+    agency.hasBeds = false;
+  }
+  return agency;
+}
+
+function mod(agencies, req) {
+  if (Array.isArray(agencies)) {
+    for (var i = 0, len = agencies.length; i < len; i++) {
+      bedCalc(agencies[i]);
+    }
+  } else {
+    bedCalc(agencies);
+  }
+
+  if (req.query.hasBeds) {
+    agencies = _.filter(agencies, ['hasBeds', (req.query.hasBeds == "true" ? true : false)]);
+  }
+  return agencies;
+}
+
+function cleanQueryParams(req) {
+  var params = _.clone(req.query);
+  delete params['hasBeds'];
+  return params;
+}
 
 router.post('/', (req, res, next) => {
   var db = req.app.get('db');
@@ -34,11 +65,12 @@ router.get('/', (req, res, next) => {
     db.run("select *, round((pos <@> point($1,$2))::numeric, 3) as distance from agency where round((pos <@> point($1,$2))::numeric, 3) < $3 order by distance",
       [xcoord, ycoord, req.query.range],
       function(err, agencies) {
-        return res.json(agencies);
+        return res.json(mod(agencies, req));
       });
   } else {
-    db.agency.find(req.query, function(err, agencies){
-      return res.json(agencies);
+    var queryParams = cleanQueryParams(req);
+    db.agency.find(queryParams, function(err, agencies){
+      return res.json(mod(agencies, req));
     });
   }
 });
@@ -48,7 +80,7 @@ router.get('/:id', (req, res, next) => {
   var db = req.app.get('db');
   db.agency.find(id, function(err, agency){
     if (agency) {
-      return res.json(agency);
+      return res.json(mod(agency, req));
     } else {
       return res.status(HttpStatus.NOT_FOUND).json({});
     }
