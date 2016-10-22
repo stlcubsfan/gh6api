@@ -7,31 +7,7 @@ var reservations = require('./agency_reservations');
 
 router.use('/:agency_id/reservations', reservations);
 
-function bedCalc(agency) {
-  if (agency) {
-    agency.hasBeds = false;
-
-    if (agency.total_beds_available) {
-      if (agency.beds_available > 0) {
-        agency.hasBeds = true;
-      }
-    }
-  }
-  return agency;
-}
-
 function mod(agencies, req) {
-  if (Array.isArray(agencies)) {
-    _.forEach(agencies, function(agency) {
-      bedCalc(agency);
-    });
-  } else {
-    bedCalc(agencies);
-  }
-
-  if (req.query.hasBeds) {
-    agencies = _.filter(agencies, ['hasBeds', (req.query.hasBeds == "true" ? true : false)]);
-  }
   return agencies || {};
 }
 
