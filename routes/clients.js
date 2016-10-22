@@ -33,6 +33,9 @@ router.post('/', (req, res, next) => {
   client.creation_date = new Date();
   client.last_update_date = new Date();
   db.client.insert(req.body, function(err, client){
+    if (err) {
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+    }
     return res.status(HttpStatus.CREATED).json(cleanseArrays(client));
   });
 });
