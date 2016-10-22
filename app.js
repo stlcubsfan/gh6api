@@ -8,6 +8,7 @@ var cors = require('cors');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var agencies = require('./routes/agencies');
+var clients = require('./routes/clients');
 
 var app = express();
 app.use(cors());
