@@ -5,7 +5,7 @@ var HttpStatus = require('http-status-codes');
 var _ = require('lodash');
 
 function bedCalc(agency) {
-  if (agency.total_beds_available != undefined && agency.total_beds_available != null) {
+  if (agency.total_beds_available) {
     agency.hasBeds = true;
   } else {
     agency.hasBeds = false;
