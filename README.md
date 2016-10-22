@@ -14,3 +14,8 @@ Query by other parameter:
 ```
 http://localhost:3001/agencies?name=Almost%20Home
 ```
+
+Reservations:
+```
+http://localhost:3001/agencies/1/reservations
+```

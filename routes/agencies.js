@@ -3,6 +3,9 @@ const router = express.Router();
 const path = require('path');
 var HttpStatus = require('http-status-codes');
 var _ = require('lodash');
+var reservations = require('./agency_reservations');
+
+router.use('/:agency_id/reservations', reservations);
 
 function bedCalc(agency) {
   if (agency.total_beds_available) {
@@ -15,9 +18,9 @@ function bedCalc(agency) {
 
 function mod(agencies, req) {
   if (Array.isArray(agencies)) {
-    for (var i = 0, len = agencies.length; i < len; i++) {
-      bedCalc(agencies[i]);
-    }
+    _.forEach(agencies, function(agency) {
+      bedCalc(agency);
+    });
   } else {
     bedCalc(agencies);
   }
