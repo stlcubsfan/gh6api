@@ -15,7 +15,7 @@ var connectionString = process.env.DATABASE_URL;
 // convenience sync method here because its on app load
 // you can also use loadSync - it's an alias
 
-console.log('BEFORE MASSIVE')
+console.log('BEFORE MASSIVE', process.env.DATABASE_URL)
 var massiveInstance = massive.connectSync({connectionString : connectionString})
 console.log('AFTER MASSIVE')
 
