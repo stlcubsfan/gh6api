@@ -8,7 +8,8 @@ var app = require('../app');
 var debug = require('debug')('gh6api:server');
 var http = require('http');
 var massive = require("massive");
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV != 'production') {
+  console.log('GOT HERE');
   require('dotenv').config();
 }
 var connectionString = process.env.DATABASE_URL;
