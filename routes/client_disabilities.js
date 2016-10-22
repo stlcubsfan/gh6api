@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
   var clientdisability = req.body;
   clientdisabilitiy.clientid = req.params.clientId;  
   clientdisability.creation_date = new Date();
-  clientdisability.last_update_date = new Date();
+  clientdisability.last_updated_date = new Date();
   clientdisability.notedbyuserid = 1;
   db.clientdisability.insert(req.body, function(err, clientdisability){
     return res.status(HttpStatus.CREATED).json(clientdisability);
@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   var db = req.app.get('db');
   var clientdisability = req.body;
-  clientdisability.last_update_date = new Date();
+  clientdisability.last_updated_date = new Date();
   clientdisability.id = Number(req.params.id);
   db.clientdisability.save(clientdisability, function(err, clientdisability){
     return res.status(HttpStatus.OK).json(clientdisability);

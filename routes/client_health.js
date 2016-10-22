@@ -35,9 +35,10 @@ router.post('/', (req, res, next) => {
   var clienthealth = req.body;
   clienthealth.clientid = req.params.clientId;  
   clienthealth.creation_date = new Date();
-  clienthealth.last_update_date = new Date();
+  clienthealth.last_updated_date = new Date();
   clienthealth.notedbyuserid = 1;
   db.clienthealth.insert(req.body, function(err, clienthealth){
+    if (err) console.log(err);
     return res.status(HttpStatus.CREATED).json(clienthealth);
   });
 });
@@ -45,7 +46,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   var db = req.app.get('db');
   var clienthealth = req.body;
-  clienthealth.last_update_date = new Date();
+  clienthealth.last_updated_date = new Date();
   clienthealth.id = Number(req.params.id);
   db.clienthealth.save(clienthealth, function(err, clienthealth){
     return res.status(HttpStatus.OK).json(clienthealth);

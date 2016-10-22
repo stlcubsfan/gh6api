@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
   var clienteducationemployment = req.body;
   clientdisabilitiy.clientid = req.params.clientId;  
   clienteducationemployment.creation_date = new Date();
-  clienteducationemployment.last_update_date = new Date();
+  clienteducationemployment.last_updated_date = new Date();
   clienteducationemployment.notedbyuserid = 1;
   db.clienteducationemployment.insert(req.body, function(err, clienteducationemployment){
     return res.status(HttpStatus.CREATED).json(clienteducationemployment);
@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   var db = req.app.get('db');
   var clienteducationemployment = req.body;
-  clienteducationemployment.last_update_date = new Date();
+  clienteducationemployment.last_updated_date = new Date();
   clienteducationemployment.id = Number(req.params.id);
   db.clienteducationemployment.save(clienteducationemployment, function(err, clienteducationemployment){
     return res.status(HttpStatus.OK).json(clienteducationemployment);

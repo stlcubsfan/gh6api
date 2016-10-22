@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
   var clientincome = req.body;
   clientdisabilitiy.clientid = req.params.clientId;  
   clientincome.creation_date = new Date();
-  clientincome.last_update_date = new Date();
+  clientincome.last_updated_date = new Date();
   clientincome.notedbyuserid = 1;
   db.clientincome.insert(req.body, function(err, clientincome){
     return res.status(HttpStatus.CREATED).json(clientincome);
@@ -45,7 +45,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   var db = req.app.get('db');
   var clientincome = req.body;
-  clientincome.last_update_date = new Date();
+  clientincome.last_updated_date = new Date();
   clientincome.id = Number(req.params.id);
   db.clientincome.save(clientincome, function(err, clientincome){
     return res.status(HttpStatus.OK).json(clientincome);
