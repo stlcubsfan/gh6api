@@ -7,6 +7,17 @@
 var app = require('../app');
 var debug = require('debug')('gh6api:server');
 var http = require('http');
+var massive = require("massive");
+var dotenv = require('dotenv').config();
+var connectionString = process.env.DATABASE_URL;
+
+// connect to Massive and get the db instance. You can safely use the
+// convenience sync method here because its on app load
+// you can also use loadSync - it's an alias
+var massiveInstance = massive.connectSync({connectionString : connectionString})
+
+// Set a reference to the massive instance on Express' app:
+app.set('db', massiveInstance);
 
 /**
  * Get port from environment and store in Express.
