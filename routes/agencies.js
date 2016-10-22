@@ -4,8 +4,10 @@ const path = require('path');
 var HttpStatus = require('http-status-codes');
 var _ = require('lodash');
 var reservations = require('./agency_reservations');
+var programs = require('./programs');
 
 router.use('/:agency_id/reservations', reservations);
+router.use('/:agency_id/programs', programs);
 
 function mod(agencies, req) {
   return agencies || {};

@@ -24,3 +24,13 @@ Reservations:
 ```
 http://localhost:3001/agencies/1/reservations
 ```
+
+Programs:
+```
+http://localhost:3001/agencies/1/programs
+```
+
+Clients for Programs:
+```
+http://localhost:3001/agencies/1/programs/2/clients
+```
