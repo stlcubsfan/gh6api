@@ -8,12 +8,13 @@ var reservations = require('./agency_reservations');
 router.use('/:agency_id/reservations', reservations);
 
 function bedCalc(agency) {
-  agency.hasBeds = false;
+  if (agency) {
+    agency.hasBeds = false;
 
-  if (agency.total_beds_available) {
-    agency.beds_available = agency.total_beds_available - agency.reservation_count;
-    if (agency.beds_available > 0) {
-      agency.hasBeds = true;
+    if (agency.total_beds_available) {
+      if (agency.beds_available > 0) {
+        agency.hasBeds = true;
+      }
     }
   }
   return agency;
@@ -31,7 +32,7 @@ function mod(agencies, req) {
   if (req.query.hasBeds) {
     agencies = _.filter(agencies, ['hasBeds', (req.query.hasBeds == "true" ? true : false)]);
   }
-  return agencies;
+  return agencies || {};
 }
 
 function cleanQueryParams(req) {
@@ -68,13 +69,24 @@ router.get('/', (req, res, next) => {
   if (req.query.range) {
     var xcoord = req.query.xpos;
     var ycoord = req.query.ypos;
-    db.run("select *, round((pos <@> point($1,$2))::numeric, 3) as distance from agency_v where round((pos <@> point($1,$2))::numeric, 3) < $3 order by distance",
-      [ycoord, xcoord, req.query.range],
+    db.run(`select *,
+            round((pos <@> point($1,$2))::numeric, 3) as distance
+            from agencyv
+            where round((pos <@> point($1,$2))::numeric, 3) < $3
+            and (beds_available > $4 or $4 is null)
+            order by distance
+    `,
+      [ycoord, xcoord, req.query.range, req.query.beds_needed],
       function(err, agencies) {
         return res.json(mod(agencies, req));
       });
   } else {
     var queryParams = cleanQueryParams(req);
+    if (req.query.beds_needed) {
+      queryParams['beds_available >'] = req.query.beds_needed;
+      delete queryParams['beds_needed'];
+    }
+    console.log(queryParams);
     db.agencyv.find(queryParams, function(err, agencies){
       return res.json(mod(agencies, req));
     });
@@ -84,9 +96,9 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
   var db = req.app.get('db');
-  db.agencyv.find({id: id}, function(err, agency){
+  db.agencyv.find({"id": id}, function(err, agency){
     if (agency) {
-      return res.json(mod(agency, req));
+      return res.json(mod(agency[0], req));
     } else {
       return res.status(HttpStatus.NOT_FOUND).json({});
     }
