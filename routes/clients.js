@@ -3,6 +3,9 @@ var router = express.Router();
 const path = require('path');
 var HttpStatus = require('http-status-codes');
 var _ = require('lodash');
+var clientDisabilities = require('./client_disabilities');
+
+router.use('/:clientId/disabilities', clientDisabilities);
 
 /* GET clients listing. */
 router.get('/', (req, res, next) => {

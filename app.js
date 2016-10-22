@@ -10,6 +10,8 @@ var users = require('./routes/users');
 var agencies = require('./routes/agencies');
 var activities = require('./routes/activities');
 var clients = require('./routes/clients');
+var disabilities = require('./routes/disabilities');
+var disabilitiesresponses = require('./routes/disability_responses');
 
 var app = express();
 app.use(cors());
@@ -33,6 +35,8 @@ app.use('/agencies', agencies);
 app.use('/agencies', agencies);
 app.use('/activities', activities);
 app.use('/clients', clients);
+app.use('/disabilities', disabilities);
+app.use('/disabilityResponses', disabilitiesresponses);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
