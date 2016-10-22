@@ -5,41 +5,51 @@ var HttpStatus = require('http-status-codes');
 
 router.post('/', (req, res, next) => {
   var db = req.app.get('db');
-  db.agency.insert(req.body, function(err, item){
-    return res.status(HttpStatus.CREATED).json(item);
+  var agency = req.body;
+  var geoloc = agency.pos;
+  agency.creation_date = new Date();
+  agency.last_update_date = new Date();
+  delete agency['pos'];
+  db.agency.insert(req.body, function(err, agency){
+    return res.status(HttpStatus.CREATED).json(agency);
   });
 });
 
 router.put('/:id', (req, res, next) => {
   var db = req.app.get('db');
   var agency = req.body;
-  item.id = Number(req.params.id);
-  db.agency.save(item, function(err, item){
-    return res.status(HttpStatus.OK).json(item);
+  delete agency['pos'];
+  agency.last_update_date = new Date();
+  agency.id = Number(req.params.id);
+  db.agency.save(agency, function(err, agency){
+    return res.status(HttpStatus.OK).json(agency);
   });
 });
 
 router.get('/', (req, res, next) => {
   var db = req.app.get('db');
-  db.agency.find(req.query, function(err, items){
-    return res.json(items);
+  db.agency.find(req.query, function(err, agencies){
+    return res.json(agencies);
   });
 });
 
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
   var db = req.app.get('db');
-  db.agency.find(id, function(err, item){
-    var result = item || {};
-    return res.json(result);
+  db.agency.find(id, function(err, agency){
+    if (agency) {
+      return res.json(agency);
+    } else {
+      return res.status(HttpStatus.NOT_FOUND).json({});
+    }
   });
 });
 
 router.delete('/:id', (req, res, next) => {
   const results = [];
   var db = req.app.get('db');
-  db.items.destroy({id: Number(req.params.id)}, function(err, item){
-      return res.status(HttpStatus.NO_CONTENT).json(item);
+  db.agency.destroy({id: Number(req.params.id)}, function(err, agency){
+      return res.status(HttpStatus.NO_CONTENT).json(agency);
   });
 });
 
