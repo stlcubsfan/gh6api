@@ -5,9 +5,11 @@ var HttpStatus = require('http-status-codes');
 var _ = require('lodash');
 var clientDisabilities = require('./client_disabilities');
 var clientEducationEmployment = require('./client_education_employment');
+var clientIncome = require('./client_income');
 
 router.use('/:clientId/disabilities', clientDisabilities);
 router.use('/:clientId/educationAndEmployments', clientEducationEmployment);
+router.use('/:clientId/incomes', clientIncome);
 
 /* GET clients listing. */
 router.get('/', (req, res, next) => {
