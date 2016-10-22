@@ -63,7 +63,7 @@ router.get('/', (req, res, next) => {
     var xcoord = req.query.xpos;
     var ycoord = req.query.ypos;
     db.run("select *, round((pos <@> point($1,$2))::numeric, 3) as distance from agency where round((pos <@> point($1,$2))::numeric, 3) < $3 order by distance",
-      [xcoord, ycoord, req.query.range],
+      [ycoord, xcoord, req.query.range],
       function(err, agencies) {
         return res.json(mod(agencies, req));
       });
