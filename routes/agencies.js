@@ -28,9 +28,19 @@ router.put('/:id', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
   var db = req.app.get('db');
-  db.agency.find(req.query, function(err, agencies){
-    return res.json(agencies);
-  });
+  if (req.query.range) {
+    var xcoord = req.query.xpos;
+    var ycoord = req.query.ypos;
+    db.run("select *, round((pos <@> point($1,$2))::numeric, 3) as distance from agency where round((pos <@> point($1,$2))::numeric, 3) < $3 order by distance",
+      [xcoord, ycoord, req.query.range],
+      function(err, agencies) {
+        return res.json(agencies);
+      });
+  } else {
+    db.agency.find(req.query, function(err, agencies){
+      return res.json(agencies);
+    });
+  }
 });
 
 router.get('/:id', (req, res, next) => {
