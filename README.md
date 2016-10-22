@@ -1,1 +1,13 @@
 # gh6api
+
+## API Examples
+
+Query by range and location:
+```
+http://localhost:3001/agencies?range=20&xpos=38.7591332&ypos=-90.297514
+```
+
+Query by other parameter:
+```
+http://localhost:3001/agencies?name=Almost%20Home
+```

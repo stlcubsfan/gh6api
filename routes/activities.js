@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const path = require('path');
+const moment = require('moment');
 var HttpStatus = require('http-status-codes');
 
 /* GET activities listing. */
@@ -26,6 +27,7 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   var db = req.app.get('db');
   var activity = req.body;
+  activity.happened_on = moment(req.body.happened_on).toISOString();
   activity.creation_date = new Date();
   activity.last_update_date = new Date();
   db.activity.insert(req.body, function(err, activity){
