@@ -17,6 +17,9 @@ var employmenttype = require('./routes/employmenttype');
 var notemployedreason = require('./routes/notemployedreason');
 var schoolstatus = require('./routes/schoolstatus');
 var partners = require('./routes/partners');
+var noyes = require('./routes/noyes');
+var whenoccured = require('./routes/whenoccured');
+var healthstatus = require('./routes/healthstatus');
 
 var app = express();
 app.use(cors());
@@ -44,10 +47,12 @@ app.use('/disabilities', disabilities);
 app.use('/disabilityResponses', disabilitiesresponses);
 app.use('/educationlevels', educationlevel);
 app.use('/employmenttypes', employmenttype);
+app.use('/healthstatuses', healthstatus);
 app.use('/notemployedreasons', notemployedreason);
-app.use('/schoolstatuses', schoolstatus);
+app.use('/noyeses', noyes);
 app.use('/partners', partners);
-
+app.use('/schoolstatuses', schoolstatus);
+app.use('/whenoccurs', whenoccured);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
