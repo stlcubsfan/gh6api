@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
             and (beds_available > $4 or $4 is null)
             order by distance
     `,
-      [ycoord, xcoord, req.query.range, req.query.beds_needed],
+      [xcoord, ycoord, req.query.range, req.query.beds_needed],
       function(err, agencies) {
         return res.json(mod(agencies, req));
       });
