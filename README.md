@@ -40,6 +40,11 @@ Things a Client is enrolled in:
 http://localhost:3001/clients/20/engagements
 ```
 
+Client Housings:
+```
+http://localhost:3001/clients/1/housings
+```
+
 Clients for Programs:
 ```
 http://localhost:3001/agencies/1/programs/2/clients
