@@ -1,8 +1,8 @@
 create or replace view client_v as
-select client.*, ch.status housing_status, ch.date_noted housing_start_date, emp.creation_date employment_start_date, COALESCE(emp.name, emp.name, 'None') employment_status
+select client.*, ch.status housing_status, ch.agency_id housing_agency_id, ch.date_noted housing_start_date, emp.employment_agency_id, emp.creation_date employment_start_date, COALESCE(emp.name, emp.name, 'None') employment_status
 from client
 left outer join client_housing ch on (client.id = ch.client_id)
-left outer join (select cee.clientid client_id, et.name, cee.creation_date
+left outer join (select cee.clientid client_id, cee.agency_id employment_agency_id, et.name, cee.creation_date
 				from clienteducationemployment cee
 				join employmenttype et on (cee.employmenttypeid = et.id)) emp on (client.id = emp.client_id)
 where (ch.date_noted is null
