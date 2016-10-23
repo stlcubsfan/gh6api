@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
   var db = req.app.get('db');
-  db.programv.find(id, function(err, program){
+  db.programv.findOne({"id": id}, function(err, program){
     if (program) {
       return res.json(program);
     } else {
