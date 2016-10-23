@@ -2,6 +2,16 @@
 
 ## API Examples
 
+Agencies:
+```
+http://localhost:3001/agencies/
+```
+
+Agency KPIs:
+```
+http://localhost:3001/agencies/1/key-indicators
+```
+
 Query by range and location:
 ```
 http://localhost:3001/agencies?range=20&xpos=38.7591332&ypos=-90.297514

@@ -83,6 +83,18 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
+router.get('/:id/key-indicators', (req, res, next) => {
+  const id = Number(req.params.id);
+  var db = req.app.get('db');
+  db.agency_kpi_v.findOne({"agency_id": id}, function(err, agencyKpis){
+    if (agencyKpis) {
+      return res.json(agencyKpis);
+    } else {
+      return res.status(HttpStatus.NOT_FOUND).json({});
+    }
+  });
+});
+
 router.delete('/:id', (req, res, next) => {
   const results = [];
   var db = req.app.get('db');
