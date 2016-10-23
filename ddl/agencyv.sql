@@ -4,5 +4,5 @@ sum(case when activity.number_in_party is null then 0 else activity.number_in_pa
 agency.total_beds_available - sum(case when activity.number_in_party is null then 0 else activity.number_in_party end) beds_available
 FROM agency
 left outer join activity on (activity.agency_id = agency.id)
-where (activity.happened_on is null or activity.happened_on >= now()::date)
+where (activity.happened_on is null or activity.happened_on >= date_trunc('day', TIMESTAMPTZ 'today' AT TIME ZONE 'US/Central'))
 group by agency.id;
