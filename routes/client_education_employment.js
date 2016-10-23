@@ -9,7 +9,7 @@ var HttpStatus = require('http-status-codes');
 router.get('/', (req, res, next) => {
   var db = req.app.get('db');
   var queryParams = req.query;
-  queryParams['clientid'] = req.params.clientId;  
+  queryParams['clientid'] = req.params.clientId;
   db.clienteducationemployment.find(queryParams, function(err, clienteducationemployments){
     return res.json(clienteducationemployments);
   });
@@ -33,11 +33,14 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   var db = req.app.get('db');
   var clienteducationemployment = req.body;
-  clientdisabilitiy.clientid = req.params.clientId;  
+  clienteducationemployment.clientid = req.params.clientId;
   clienteducationemployment.creation_date = new Date();
   clienteducationemployment.last_updated_date = new Date();
-  clienteducationemployment.notedbyuserid = 1;
-  db.clienteducationemployment.insert(req.body, function(err, clienteducationemployment){
+  // clienteducationemployment.notedbyuserid = 1;
+  db.clienteducationemployment.insert(clienteducationemployment, function(err, clienteducationemployment){
+    if (err) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+    }
     return res.status(HttpStatus.CREATED).json(clienteducationemployment);
   });
 });
@@ -48,6 +51,9 @@ router.put('/:id', (req, res, next) => {
   clienteducationemployment.last_updated_date = new Date();
   clienteducationemployment.id = Number(req.params.id);
   db.clienteducationemployment.save(clienteducationemployment, function(err, clienteducationemployment){
+    if (err) {
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
+    }
     return res.status(HttpStatus.OK).json(clienteducationemployment);
   });
 });

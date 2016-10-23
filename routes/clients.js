@@ -7,16 +7,19 @@ var clientDisabilities = require('./client_disabilities');
 var clientEducationEmployment = require('./client_education_employment');
 var clientIncome = require('./client_income');
 var clientHealth = require('./client_health');
+var clientHousing = require('./housing');
 
 router.use('/:clientId/disabilities', clientDisabilities);
 router.use('/:clientId/educationAndEmployments', clientEducationEmployment);
 router.use('/:clientId/incomes', clientIncome);
 router.use('/:clientId/healthes', clientHealth);
+router.use('/:clientId/housings', clientHousing);
+
 
 /* GET clients listing. */
 router.get('/', (req, res, next) => {
   var db = req.app.get('db');
-  db.client.find(req.query, function(err, clients){
+  db.client_v.find(req.query, function(err, clients){
     return res.json(_.map(clients, cleanseArrays));
   });
 });
@@ -24,7 +27,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const id = Number(req.params.id);
   var db = req.app.get('db');
-  db.client.find(id, function(err, client){
+  db.client_v.findOne({"id": id}, function(err, client){
     if (client) {
       return res.json(cleanseArrays(client));
     } else {
